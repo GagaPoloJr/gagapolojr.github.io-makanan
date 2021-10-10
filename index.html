@@ -14,6 +14,9 @@
         body {
             font-family: "Poppins", sans-serif;
         }
+        .card-columns {
+            column-count: 6;
+        }
     </style>
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <title>Selamat Datang Ges</title>
@@ -59,14 +62,27 @@
             </div>
       
     </div>
+    <br><br><br>
+    <div class="container mt-5">
+        <h5>Perkiraan Cuaca Semarang dan sekitarnya oleh <a href="https://github.com/ibnux">@ibnux</a> </h5>
+        <div class="card">
+            <div class="card-header" id="judulTerdekat">
+                Jarak terdekat dari ?
+            </div>
+            <ul class="list-group" id="wilayahTerdekat">
+            </ul>
+        </div>
+        <hr>
+        <h4 id="judulCuaca"></h4>
+        <div class="card-columns" id="cuaca">
+        </div>
+    </div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
     </script>
@@ -75,6 +91,106 @@
     <script>
        
     </script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    var lat = -6.959144;
+    var lon = 110.438690;
+
+
+    function getWilayah() {
+        $.getJSON('https://ibnux.github.io/BMKG-importer/cuaca/wilayah.json', function (data) {
+            var items = [];
+            var jml = data.length;
+
+            //hitung jarak
+            for (n = 0; n < jml; n++) {
+                data[n].jarak = distance(lat, lon, data[n].lat, data[n].lon, 'K');
+            }
+
+            //urutkan berdasarkan jarak
+            data.sort(urutkanJarak);
+
+            //setelah dapat jarak,  ambil 5 terdekat
+            for (n = 0; n < jml; n++) {
+                items.push('<li class="list-group-item d-flex justify-content-between align-items-center">' + data[n].propinsi +
+                    ', ' + data[n].kota + ', ' + data[n].kecamatan + '<span class="badge badge-primary badge-pill">' + data[n].jarak.toFixed(2) + ' km</span></li>');
+                if (n > 4) break
+            };
+            $('#judulTerdekat').html("Jarak terdekat dari " + lat + "," + lon);
+            $('#wilayahTerdekat').html(items.join(""));
+            $('#judulCuaca').html(data[0].propinsi +
+                    ', ' + data[0].kota + ', ' + data[0].kecamatan + ' ' + data[0].jarak.toFixed(2)+" km");
+            getCuaca(data[0].id);
+        });
+    }
+
+    function getCuaca(idWilayah) {
+        $.getJSON('https://ibnux.github.io/BMKG-importer/cuaca/'+idWilayah+'.json', function (data) {
+            var items = [];
+            var jml = data.length;
+
+            //setelah dapat jarak,  ambil 5 terdekat
+            for (n = 0; n < jml; n++) {
+                items.push('<div class="card text-center">'+
+                        '<img src="https://ibnux.github.io/BMKG-importer/icon/'+
+                        data[n].kodeCuaca+
+                        '.png" class="card-img-top">'+
+                        '<div class="card-body"><h5 class="card-title">'+
+                        data[n].cuaca+
+                        '</h5><p class="card-text">'+
+                        data[n].jamCuaca+
+                        '</p></div></div>');
+                if (n > 4) break
+            };
+            $('#cuaca').html(items.join(""));
+        });
+    }
+
+    // https://www.htmlgoodies.com/beyond/javascript/calculate-the-distance-between-two-points-in-your-web-apps.html
+    function distance(lat1, lon1, lat2, lon2) {
+        var radlat1 = Math.PI * lat1 / 180
+        var radlat2 = Math.PI * lat2 / 180
+        var theta = lon1 - lon2
+        var radtheta = Math.PI * theta / 180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180 / Math.PI
+        dist = dist * 60 * 1.1515
+        return Math.round((dist * 1.609344) * 1000) / 1000;
+    }
+
+    function urutkanJarak(a, b) {
+        if (a['jarak'] === b['jarak']) {
+            return 0;
+        }
+        else {
+            return (a['jarak'] < b['jarak']) ? -1 : 1;
+        }
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, onErrorGPS);
+        } else {
+            //ga bisa dapat GPS, pake default aja
+            getWilayah();
+        }
+    }
+
+    function showPosition(position) {
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        getWilayah();
+    }
+
+    function onErrorGPS(error) {
+        //ake default aja
+        getWilayah();
+    }
+
+    getLocation();
+</script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

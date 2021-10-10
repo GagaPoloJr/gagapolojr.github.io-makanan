@@ -14,9 +14,9 @@ function store()
         alert("Masukkin dulu dong");
     }
     else{
-        if (listmakananvalue >=10)
+        if (listmakananvalue >15)
         {
-            alert("kamu udah masukin makanan lebih dari " +listmakanan.length)
+            alert("kamu udah masukin makanan lebih dari " +listmakanan.length + " tolong jangan banyak banyak :)")
             tambahButton.disabled = "true";
         }
         show();

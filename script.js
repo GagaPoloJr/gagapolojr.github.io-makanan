@@ -34,7 +34,7 @@ function show(){
     {
         hasil.innerHTML += "list kamu: " + "<br> <li> " + listmakanan.join(", ") + "</li> <br>";
         var total = listmakanan.length
-        if(total >= 5)
+        if(total >= 4)
         {
             randomButton.style.display = "block";
             refreshButton.style.display = "block";

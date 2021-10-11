@@ -42,7 +42,7 @@ function show(){
         }
     }
    
-    console.log(listmakanan)
+    // console.log(listmakanan)
    
 }
 

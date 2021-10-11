@@ -39,14 +39,14 @@
                 <small style="color: grey; font-style: italic;" class="text-muted "> (masukkan minimal 5 tempat biar tombolnya keluar)</small>
             </div>
             <div class="col-md-6 col-12">
-                <input placeholder="silahkan masukkan nama tempat makannya" id="makanan" type="text" name="makanan"
+                <input  placeholder="silahkan masukkan nama tempat makannya" id="makanan" type="text" name="makanan"
                     class="form-control">
                 <button id="hapus" class="btn btn-danger btn-sm" onclick="hapus()">Hapus inputan</button>
 
             </div>
             <div class="col-12 text-center mt-5">
 
-                <button id="tambah" class="btn btn-primary" onclick="store()">Tambah</button>
+                <button id="tambah" class="btn btn-primary"  onclick="store()">Tambah</button>
 
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="col-12">
                 <div class="row justify-content-center align-items-center">
                     
-                    <input onclick="random()" class="btn btn-success text-center" style="display: none;" type="button" id="random" value="Hayo dapat apa">
+                    <input onclick="random()"  class="btn btn-success text-center" style="display: none;" type="button" id="random" value="Hayo dapat apa">
                     
                     <input onclick="refresh()" style="display: none;" class="btn btn-warning text-center ml-3" type="button" id="refresh" value="Refresh">
                 </div>
@@ -93,6 +93,13 @@
     </script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+ $("#makanan").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#tambah").click();
+    }
+});
+</script>
 <script>
     var lat = -6.959144;
     var lon = 110.438690;

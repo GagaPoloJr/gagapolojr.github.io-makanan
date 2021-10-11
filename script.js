@@ -57,11 +57,11 @@ function random() {
         cancelButtonText: 'Hmmm',
         background: '#000',
         backdrop: `
-            rgba(0,0,123,0.4)
-            url("https://sweetalert2.github.io/images/nyan-cat.gif")
-            left top
-            no-repeat
-        `
+        rgba(0,0,123,0.4)
+        url("https://media1.giphy.com/media/3o7aCZDlmQZLe4Q4V2/giphy.gif?cid=ecf05e47qeyg4zr5y038ygjby3l96rkrrfxj6ylyis13x513&rid=giphy.gif&ct=g")
+        right top
+        no-repeat
+    `
       }).then((result) => {
         if (result.isConfirmed) {
             

@@ -1,3 +1,3 @@
 # gagapolojr.github.io
 
-#biar tau makan apa
+# biar tau makan apa

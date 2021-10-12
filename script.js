@@ -1,11 +1,40 @@
 var listmakanan =[];
+var makanan_sborut = ["peyet kuah","burjo BB","Sara","bu bambang","bu nur","nasi padang maskam","pak joko","mie ayam jakarta","OTI","PWD","nasi uduk meeting","antonibah","cak dul", "cak eco"];
+
+
 var makananInput = document.getElementById("makanan");
 var randomButton = document.getElementById("random");
 var refreshButton = document.getElementById("refresh");
-
 var hasil = document.getElementById("result");
 var tambahButton = document.getElementById("tambah");
 var hasilakhir = document.getElementById("hasil_akhir");
+var sobrutButton = document.getElementById("sobrut");
+var oranglainButton = document.getElementById("orang_lain");
+var temanButton = document.getElementById("temanku");
+var elementField = document.getElementById("random_people");
+var pilihanButton = document.getElementById("pilihan_tombol");
+var randomSobrutButton = document.getElementById("random_sobrut");
+
+
+
+
+
+    sobrutButton.onclick = function(){
+        randomSobrutButton.style.display = "block";
+        pilihanButton.style.display = 'none';
+
+    }
+
+    oranglainButton.onclick = function(){
+        pilihanButton.style.display = 'none'
+        elementField.style.display ='block';
+    }
+    temanButton.onclick = function(){
+        pilihanButton.style.display = 'none'
+        elementField.style.display ='block';
+    }
+      
+
 function store()
 {   
     var listmakananvalue =listmakanan.push(makananInput.value);
@@ -59,13 +88,47 @@ function random() {
         backdrop: `
         rgba(0,0,123,0.4)
         url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gif")
-        right top
+        left top
         no-repeat
     `
       }).then((result) => {
         if (result.isConfirmed) {
             
           Swal.fire("Selamat hari ini kamu makan "+randommakanan, '', 'success')
+            .then(function(isConfirm)
+            {
+                if(isConfirm){
+                    location.reload();
+                }
+            })
+
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })
+
+}
+
+function random_sobrut() {
+    var randommakanan = makanan_sborut[Math.floor(Math.random()* makanan_sborut.length)];
+    console.log(randommakanan)
+    // hasilakhir.innerHTML= randommakanan;
+    Swal.fire({
+        title: 'Yakin tempat makannya itu aja?',
+        showCancelButton: true,
+        confirmButtonText: 'Iya yakin',
+        cancelButtonText: 'Hmmm',
+        background: '#000',
+        backdrop: `
+        rgba(0,0,123,0.4)
+        url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gif")
+        left top
+        no-repeat
+    `
+      }).then((result) => {
+        if (result.isConfirmed) {
+            
+          Swal.fire("Selamat hari ini kamu makan di "+randommakanan, '', 'success')
             .then(function(isConfirm)
             {
                 if(isConfirm){

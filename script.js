@@ -5,6 +5,8 @@ var makanan_sborut = ["peyet kuah","burjo BB","Sara","bu bambang","bu nur","nasi
 var makananInput = document.getElementById("makanan");
 var randomButton = document.getElementById("random");
 var refreshButton = document.getElementById("refresh");
+var refreshButton2 = document.getElementById("refresh2");
+
 var hasil = document.getElementById("result");
 var tambahButton = document.getElementById("tambah");
 var hasilakhir = document.getElementById("hasil_akhir");
@@ -14,9 +16,11 @@ var temanButton = document.getElementById("temanku");
 var elementField = document.getElementById("random_people");
 var pilihanButton = document.getElementById("pilihan_tombol");
 var randomSobrutButton = document.getElementById("random_sobrut");
+var counter = document.getElementById("counter");
 
 
 
+var i =3;
 
 
     sobrutButton.onclick = function(){
@@ -87,10 +91,10 @@ function random() {
         background: '#000',
         backdrop: `
         rgba(0,0,123,0.4)
-        url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gif")
+        url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gifimages/nyan-cat.gif")
         left top
         no-repeat
-    `
+      `
       }).then((result) => {
         if (result.isConfirmed) {
             
@@ -98,7 +102,15 @@ function random() {
             .then(function(isConfirm)
             {
                 if(isConfirm){
-                    location.reload();
+                    if (i >0)
+                    {
+                        counter.innerHTML =`Kesempatan kamu tinggal  ${i--}`
+                    }
+                    else if(i<=0 ){
+                        counter.innerHTML = `Kesempatan kamu sudah habis, udah makan di <b> ${randommakanan}</b> aja`;
+                        elementField.style.display = "none";
+                        refreshButton2.style.display = "block";
+                    }
                 }
             })
 
@@ -111,8 +123,8 @@ function random() {
 
 function random_sobrut() {
     var randommakanan = makanan_sborut[Math.floor(Math.random()* makanan_sborut.length)];
-    console.log(randommakanan)
     // hasilakhir.innerHTML= randommakanan;
+  
     Swal.fire({
         title: 'Yakin tempat makannya itu aja?',
         showCancelButton: true,
@@ -121,27 +133,41 @@ function random_sobrut() {
         background: '#000',
         backdrop: `
         rgba(0,0,123,0.4)
-        url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gif")
+        url("https://sweetalert2.github.io/#iconsimages/nyan-cat.gifimages/nyan-cat.gif")
         left top
         no-repeat
-    `
+      `
       }).then((result) => {
+       
         if (result.isConfirmed) {
             
           Swal.fire("Selamat hari ini kamu makan di "+randommakanan, '', 'success')
             .then(function(isConfirm)
             {
                 if(isConfirm){
-                    location.reload();
+                    if (i >0)
+                    {
+                        counter.innerHTML =`Kesempatan kamu tinggal  ${i--}`
+                    }
+                    else if(i<=0 ){
+                        counter.innerHTML = `Kesempatan kamu sudah habis, udah makan di <b> ${randommakanan}</b> aja`;
+                        randomSobrutButton.style.display = "none";
+                        refreshButton2.style.display = "block";
+                    }
                 }
+                
             })
 
         } else if (result.isDenied) {
           Swal.fire('Changes are not saved', '', 'info')
         }
-      })
+      }
+      
+      )
 
 }
 function refresh() {
     window.location.reload()
 }
+
+

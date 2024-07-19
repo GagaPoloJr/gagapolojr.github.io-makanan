@@ -23,11 +23,11 @@ var counter = document.getElementById("counter");
 var i =3;
 
 
-    sobrutButton.onclick = function(){
-        randomSobrutButton.style.display = "block";
-        pilihanButton.style.display = 'none';
+    // sobrutButton.onclick = function(){
+    //     randomSobrutButton.style.display = "block";
+    //     pilihanButton.style.display = 'none';
 
-    }
+    // }
 
     oranglainButton.onclick = function(){
         pilihanButton.style.display = 'none'
